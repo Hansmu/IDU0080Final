@@ -14,7 +14,7 @@ public class CouriersController {
     @Autowired
     private CouriersService couriersService;
 
-    @RequestMapping(name = "all", method = RequestMethod.GET)
+    @RequestMapping(value = "all", method = RequestMethod.GET)
     public Result getAllCouriers() {
         return Result.ok(couriersService.findAll());
     }
