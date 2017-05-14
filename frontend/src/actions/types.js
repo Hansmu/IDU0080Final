@@ -1,0 +1,3 @@
+export const GET_ORDERS = 'GET_ORDERS';
+export const SUBMIT_ORDER = 'SUBMIT_ORDER';
+export const GET_TRACKING_ID_ORDER = 'GET_TRACKING_ID_ORDER';

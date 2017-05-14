@@ -19,4 +19,9 @@ public class OrderDetailsController {
     public Result getOrderDetails(@PathVariable("orderId") Long orderId) {
         return Result.ok(orderDetailsService.getOrderDetails(orderId));
     }
+
+    @RequestMapping(value = "all", method = RequestMethod.GET)
+    public Result getAllOrders() {
+        return Result.ok(orderDetailsService.getAllOrders());
+    }
 }

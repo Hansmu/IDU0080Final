@@ -14,6 +14,11 @@ public class MainController {
     @Autowired
     private MainService mainService;
 
+    @RequestMapping(value = "all", method = RequestMethod.GET)
+    public Result getAllOrders() {
+        return Result.ok(mainService.getAllOrders());
+    }
+
     @RequestMapping(value = "{orderId}", method = RequestMethod.GET)
     public Result processOrder(@PathVariable Long orderId) {
         return Result.ok(mainService.processOrderAndGetTrackingNumber(orderId));

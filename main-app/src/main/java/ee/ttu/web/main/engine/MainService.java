@@ -115,4 +115,14 @@ public class MainService {
 
         return responseEntity.getData();
     }
+
+    public List<OrderDetails> getAllOrders() {
+        RestTemplate restTemplate = new RestTemplate();
+        String orderDetailsUrl = REMOTE_TTU_MOCK + "/order/all";
+
+        Result<List<OrderDetails>> orderDetailsResult = restTemplate.exchange(orderDetailsUrl, HttpMethod.GET,
+                null, new ParameterizedTypeReference<Result<List<OrderDetails>>>() {}).getBody();
+
+        return orderDetailsResult.getData();
+    }
 }
