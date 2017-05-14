@@ -38,12 +38,13 @@ public class SoapService {
         GetDeliveryInfoResponse getDeliveryInfoResponse = new GetDeliveryInfoResponse();
         getDeliveryInfoResponse.setDeliveryPrice(new BigDecimal(discountedPrice));
         getDeliveryInfoResponse.setDeliveryDays(deliveryDays);
+        getDeliveryInfoResponse.setDeliveryIdentifier(deliveryIdentifier.toString());
 
         return getDeliveryInfoResponse;
     }
 
     private double getCourierCost(OrderInfoJson orderInfoJson, CourierJson courierJson) {
-        return orderInfoJson.getOrderCost().longValue() * (courierJson.getPercentFromOrder() / 10);
+        return orderInfoJson.getOrderCost().doubleValue() * ((double)courierJson.getPercentFromOrder() / 100);
     }
 
     private boolean isDeliveryAddressInSameCountyWithCourier(OrderInfoJson orderInfoJson, CourierJson courierJson) {
@@ -68,7 +69,7 @@ public class SoapService {
     }
 
     private double applyDiscountsToPriceIfApplicable(double courierCost, OrderInfoJson orderInfoJson, CourierJson courierJson) {
-        double discountedCourierCost = 0;
+        double discountedCourierCost = courierCost;
 
         if (isDeliveryAddressInSameCountyWithCourier(orderInfoJson, courierJson)) {
             discountedCourierCost = applyDiscountOfThirtyPercent(courierCost);

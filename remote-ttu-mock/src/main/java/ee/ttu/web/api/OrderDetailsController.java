@@ -16,7 +16,7 @@ public class OrderDetailsController {
     private OrderDetailsService orderDetailsService;
 
     @RequestMapping(value = "{orderId}/details", method = RequestMethod.GET)
-    public Result getOrderDetails(@PathVariable("orderId") String orderId) {
+    public Result getOrderDetails(@PathVariable("orderId") Long orderId) {
         return Result.ok(orderDetailsService.getOrderDetails(orderId));
     }
 }

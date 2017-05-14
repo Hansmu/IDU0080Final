@@ -5,4 +5,5 @@ include 'order-details'
 include 'remote-ttu-mock'
 include 'couriers'
 include 'soap-service'
+include 'order-finish-app'
 

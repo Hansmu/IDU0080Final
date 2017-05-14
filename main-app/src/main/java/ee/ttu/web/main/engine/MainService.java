@@ -1,5 +1,6 @@
 package ee.ttu.web.main.engine;
 
+import ee.ttu.web.common.OrderJson;
 import ee.ttu.web.common.Result;
 import ee.ttu.web.main.domain.common.DeliveryOffer;
 import ee.ttu.web.main.domain.common.OfferQuality;
@@ -8,10 +9,14 @@ import ee.ttu.web.main.domain.json.OrderDetails;
 import ee.ttu.web.main.soap.GetDeliveryInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +28,19 @@ public class MainService {
     @Autowired
     private OfferClient offerClient;
 
-    public OfferQuality getBestOfferForOrder(Long orderId) {
+    public String processOrderAndGetTrackingNumber(Long orderId) {
         OrderDetails orderDetails = getOrderDetails(orderId);
         List<Courier> couriers = getCouriers();
 
         List<DeliveryOffer> deliveryOffers = getDeliveryOffers(couriers, orderDetails);
+        OfferQuality bestOffer = getBestOffer(deliveryOffers);
+        double totalOrderCost = bestOffer.getDeliveryPrice() + orderDetails.getOrderCost().doubleValue();
+        String deliveryDateAsString = bestOffer.getDeliveryDate().getYear() + "-" + bestOffer.getDeliveryDate().getMonthValue() + "-" + bestOffer.getDeliveryDate().getDayOfMonth();
 
-        return getBestOffer(deliveryOffers);
+        OrderJson orderJson = new OrderJson(bestOffer.getCourierId(), orderId, bestOffer.getOrderId(), deliveryDateAsString, totalOrderCost);
+        String trackingNumber = addNewOrder(orderJson);
+
+        return trackingNumber;
     }
 
     private List<DeliveryOffer> getDeliveryOffers(List<Courier> couriers, OrderDetails orderDetails) {
@@ -47,10 +58,19 @@ public class MainService {
 
     private OfferQuality getBestOffer(List<DeliveryOffer> deliveryOffer) {
         return deliveryOffer.stream()
-                .map(offer -> new OfferQuality(getOfferQuality(offer), offer.getDeliveryIdentifier(), offer.getCourierId()))
+                .map(this::getOfferQualityFromDeliveryOffer)
                 .sorted((oq1, oq2) -> new Double(oq1.getQuality()).compareTo(oq2.getQuality()))
                 .collect(Collectors.toList())
                 .get(0);
+    }
+
+    private OfferQuality getOfferQualityFromDeliveryOffer(DeliveryOffer offer) {
+        double offerQuality = getOfferQuality(offer);
+        String trackingNumber = offer.getDeliveryIdentifier();
+        long courierId = offer.getCourierId();
+        LocalDate deliveryDate = LocalDate.now().plusDays(offer.getDeliveryDays());
+
+        return new OfferQuality(offerQuality, trackingNumber, courierId, deliveryDate, offer.getDeliveryPrice().doubleValue());
     }
 
     private double getOfferQuality(DeliveryOffer deliveryOffer) {
@@ -72,5 +92,15 @@ public class MainService {
         Result<List<Courier>> couriersResult = restTemplate.exchange("http://localhost:9200/couriers/all", HttpMethod.GET,
                 null, new ParameterizedTypeReference<Result<List<Courier>>>() {}).getBody();
         return couriersResult.getData();
+    }
+
+    private String addNewOrder(OrderJson orderJson) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<OrderJson> order = new HttpEntity<>(orderJson);
+
+        Result<String> responseEntity = restTemplate.exchange("http://localhost:11111/order/make", HttpMethod.POST, order,
+                new ParameterizedTypeReference<Result<String>>() {}).getBody();
+
+        return responseEntity.getData();
     }
 }

@@ -27,7 +27,8 @@ import java.math.BigDecimal;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
         "deliveryPrice",
-        "deliveryDays"
+        "deliveryDays",
+        "deliveryIdentifier"
 })
 @XmlRootElement(name = "getDeliveryInfoResponse")
 public class GetDeliveryInfoResponse {

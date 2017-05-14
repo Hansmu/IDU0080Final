@@ -80,6 +80,7 @@ dependencies {
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
     jaxb "com.sun.xml.bind:jaxb-xjc:2.1.7"
 
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.5"
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

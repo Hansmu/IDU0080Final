@@ -44,4 +44,12 @@ public class OrderDetails {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
+    public BigDecimal getOrderCost() {
+        return orderCost;
+    }
+
+    public void setOrderCost(BigDecimal orderCost) {
+        this.orderCost = orderCost;
+    }
 }

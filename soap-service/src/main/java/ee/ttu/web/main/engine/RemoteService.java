@@ -13,14 +13,14 @@ public class RemoteService {
 
     public OrderInfoJson getOrderInfoById(Long orderInfoId) {
         RestTemplate restTemplate = new RestTemplate();
-        Result<OrderInfoJson> responseEntity = restTemplate.exchange("http://localhost:9100/order/" + orderInfoId + "details", HttpMethod.GET,
+        Result<OrderInfoJson> responseEntity = restTemplate.exchange("http://localhost:9100/order/" + orderInfoId + "/details", HttpMethod.GET,
                 null, new ParameterizedTypeReference<Result<OrderInfoJson>>() {}).getBody();
         return responseEntity.getData();
     }
 
     public CourierJson getCourierById(long courierId) {
         RestTemplate restTemplate = new RestTemplate();
-        Result<CourierJson> responseEntity = restTemplate.exchange("http://localhost:9100/courier/" + courierId, HttpMethod.GET,
+        Result<CourierJson> responseEntity = restTemplate.exchange("http://localhost:9100/couriers/" + courierId, HttpMethod.GET,
                 null, new ParameterizedTypeReference<Result<CourierJson>>() {}).getBody();
         return responseEntity.getData();
     }
