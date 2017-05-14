@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://ttu.ee/web/delivery-info">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getDeliveryInfo>
+            <gs:courierId>1</gs:courierId>
+            <gs:orderId>12</gs:orderId>
+        </gs:getDeliveryInfo>
+    </soapenv:Body>
+</soapenv:Envelope>
