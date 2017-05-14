@@ -2,9 +2,11 @@ package ee.ttu.web.main.engine;
 
 import ee.ttu.web.common.OrderJson;
 import ee.ttu.web.common.Result;
+import ee.ttu.web.common.TrackingId;
 import ee.ttu.web.main.domain.common.DeliveryOffer;
 import ee.ttu.web.main.domain.common.OfferQuality;
 import ee.ttu.web.main.domain.json.Courier;
+import ee.ttu.web.main.domain.json.MadeOrderJson;
 import ee.ttu.web.main.domain.json.OrderDetails;
 import ee.ttu.web.main.soap.GetDeliveryInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,16 @@ public class MainService {
 
     @Autowired
     private OfferClient offerClient;
+
+
+    public MadeOrderJson getMadeOrderByTrackingNumber(TrackingId trackingId) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<TrackingId> order = new HttpEntity<>(trackingId);
+
+        Result<MadeOrderJson> response = restTemplate.exchange("http://localhost:11111/order/tracking", HttpMethod.POST, order,
+                new ParameterizedTypeReference<Result<MadeOrderJson>>() {}).getBody();
+        return response.getData();
+    }
 
     public String processOrderAndGetTrackingNumber(Long orderId) {
         OrderDetails orderDetails = getOrderDetails(orderId);

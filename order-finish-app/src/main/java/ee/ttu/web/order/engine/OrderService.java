@@ -34,7 +34,7 @@ public class OrderService {
         String identifierWithoutDashes = orderJson.getOrderIdentifier().replace("-", "");
         String shortenedIdentifier = identifierWithoutDashes.substring(0, 11);
         LocalDate currentDate = LocalDate.now();
-        String identifierExtension = "#" + currentDate.getYear() + currentDate.getMonth() + currentDate.getDayOfMonth();
+        String identifierExtension = "#" + currentDate.getYear() + currentDate.getMonthValue() + currentDate.getDayOfMonth();
         return shortenedIdentifier.toUpperCase() + identifierExtension;
     }
 
