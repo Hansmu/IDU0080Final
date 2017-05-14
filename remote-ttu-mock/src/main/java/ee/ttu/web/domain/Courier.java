@@ -12,8 +12,11 @@ public class Courier {
     private Long id;
     private String courierName;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="address_id")
+    @ManyToMany
+    @JoinTable(name = "courier_address",
+            joinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "courier_address_id", referencedColumnName = "id")
+    )
     private List<Address> addresses;
 
     public Long getId() {
