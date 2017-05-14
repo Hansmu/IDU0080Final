@@ -15,6 +15,7 @@
             <xs:sequence>
                 <xs:element name="deliveryPrice" type="xs:decimal"/>
                 <xs:element name="deliveryDays" type="xs:int"/>
+                <xs:element name="deliveryIdentifier;" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

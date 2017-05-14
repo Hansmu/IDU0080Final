@@ -7,8 +7,10 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 
 public class OfferClient extends WebServiceGatewaySupport {
 
-    public GetDeliveryInfoResponse getDeliveryOffer() {
+    public GetDeliveryInfoResponse getDeliveryOffer(long orderId, long courierId) {
         GetDeliveryInfo deliveryOfferRequest = new GetDeliveryInfo();
+        deliveryOfferRequest.setOrderId(orderId);
+        deliveryOfferRequest.setCourierId(courierId);
 
         GetDeliveryInfoResponse response = (GetDeliveryInfoResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("http://localhost:9300/ws",

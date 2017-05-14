@@ -16,4 +16,8 @@ public class CouriersService {
     public List<Courier> findAll() {
         return couriersRepository.findAll();
     }
+
+    public Courier findById(Long courierId) {
+        return couriersRepository.findOne(courierId);
+    }
 }

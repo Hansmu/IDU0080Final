@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
         "deliveryPrice",
-        "deliveryDays"
+        "deliveryDays",
+        "deliveryIdentifier"
 })
 @XmlRootElement(name = "getDeliveryInfoResponse")
 public class GetDeliveryInfoResponse {
@@ -39,6 +40,7 @@ public class GetDeliveryInfoResponse {
     @XmlElement(required = true)
     protected BigDecimal deliveryPrice;
     protected int deliveryDays;
+    protected String deliveryIdentifier;
 
     /**
      * Gets the value of the deliveryPrice property.
@@ -80,4 +82,11 @@ public class GetDeliveryInfoResponse {
         this.deliveryDays = value;
     }
 
+    public String getDeliveryIdentifier() {
+        return deliveryIdentifier;
+    }
+
+    public void setDeliveryIdentifier(String deliveryIdentifier) {
+        this.deliveryIdentifier = deliveryIdentifier;
+    }
 }

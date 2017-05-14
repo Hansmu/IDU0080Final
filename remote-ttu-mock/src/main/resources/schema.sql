@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS courier_address;
 CREATE TABLE courier
 (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  courier_name VARCHAR2(2000)
+  courier_name VARCHAR2(2000),
+  percent_from_order INT
 );
 
 CREATE TABLE client_order

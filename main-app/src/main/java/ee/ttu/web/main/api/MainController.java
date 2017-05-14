@@ -15,6 +15,6 @@ public class MainController {
 
     @RequestMapping(value = "{orderId}", method = RequestMethod.GET)
     public Result processOrder(@PathVariable Long orderId) {
-        return Result.ok(mainService.processOrder(orderId));
+        return Result.ok(mainService.getBestOfferForOrder(orderId));
     }
 }

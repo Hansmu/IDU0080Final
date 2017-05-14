@@ -1,23 +1,11 @@
-package ee.ttu.web.domain;
+package ee.ttu.web.main.domain.json;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "courier")
-public class Courier {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+public class CourierJson {
     private Long id;
     private String courierName;
     private int percentFromOrder;
-
-    @ManyToMany
-    @JoinTable(name = "courier_address",
-            joinColumns = @JoinColumn(name = "courier_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "courier_address_id", referencedColumnName = "id")
-    )
     private List<Address> addresses;
 
     public Long getId() {
@@ -36,19 +24,19 @@ public class Courier {
         this.courierName = courierName;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
     public int getPercentFromOrder() {
         return percentFromOrder;
     }
 
     public void setPercentFromOrder(int percentFromOrder) {
         this.percentFromOrder = percentFromOrder;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }
